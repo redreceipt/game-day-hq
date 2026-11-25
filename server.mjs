@@ -168,6 +168,19 @@ function nflBoard(raw) {
   };
 }
 
+export async function loadMatchup(season, league, team, week = null) {
+  const base = path(seasonParam(season), leagueParam(league));
+  const teamId = int(team, 1, 99999, 'team ID');
+  const meta = await getJSON(`${base}?view=mSettings&view=mTeam`);
+  const info = leagueInfo(meta);
+  const selected = week === null ? info.currentWeek : weekParam(week);
+  if (!info.teams.some(t => t.id === teamId)) throw new FeedError(404, 'This team ID isn’t in that league for the selected season.');
+  const periods = meta.settings?.scheduleSettings?.matchupPeriods ?? {};
+  const period = Number(Object.keys(periods).find(id => Array.isArray(periods[id]) && periods[id].includes(selected))) || selected;
+  const box = await getJSON(`${base}?view=mTeam&view=mRoster&view=mMatchupScore&view=mBoxscore&scoringPeriodId=${selected}&matchupPeriodId=${period}`);
+  return { week: selected, board: buildMatchup(meta, box, selected, teamId) };
+}
+
 const security = {
   'Content-Security-Policy': "default-src 'self'; img-src 'self' https://a.espncdn.com; style-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'",
   'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'no-referrer',
@@ -196,18 +209,14 @@ export async function handleRequest(req, res, route) {
       const feed = await getJSON(`${nfl}?dates=${season}&seasontype=2&week=${week}`);
       return json(res, 200, nflBoard(feed), true);
     }
-    if (pathname === '/api/league' || pathname === '/api/matchup') {
-      const league = leagueParam(q.get('league')), season = seasonParam(q.get('season'));
-      const base = path(season, league);
+    if (pathname === '/api/league') {
+      const base = path(seasonParam(q.get('season')), leagueParam(q.get('league')));
       const meta = await getJSON(`${base}?view=mSettings&view=mTeam`);
-      const info = leagueInfo(meta);
-      if (pathname === '/api/league') return json(res, 200, info, true);
-      const team = int(q.get('team'), 1, 99999, 'team ID'), week = weekParam(q.get('week'));
-      if (!info.teams.some(t => t.id === team)) throw new FeedError(404, 'This team ID isn’t in that league for the selected season.');
-      const periods = meta.settings?.scheduleSettings?.matchupPeriods ?? {};
-      const period = Number(Object.keys(periods).find(id => Array.isArray(periods[id]) && periods[id].includes(week))) || week;
-      const box = await getJSON(`${base}?view=mTeam&view=mRoster&view=mMatchupScore&view=mBoxscore&scoringPeriodId=${week}&matchupPeriodId=${period}`);
-      return json(res, 200, buildMatchup(meta, box, week, team), true);
+      return json(res, 200, leagueInfo(meta), true);
+    }
+    if (pathname === '/api/matchup') {
+      const { board } = await loadMatchup(q.get('season'), q.get('league'), q.get('team'), weekParam(q.get('week')));
+      return json(res, 200, board, true);
     }
     throw new FeedError(404, 'That page doesn’t exist.');
   } catch (error) {

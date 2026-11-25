@@ -16,6 +16,10 @@ Team choices and the active team live in the current browser’s `localStorage`.
 
 If ESPN denies access, check the link and season, then ask the league manager whether they want to allow public viewing. The app never asks for an ESPN login, password, or session cookie. Scores depend on ESPN's unofficial public feeds, and available weeks and stats may vary by league.
 
+## Kindle Keyboard
+
+[Game Day HQ for Kindle](kindle/README.md) is a separate native e-ink app with physical-key controls and a home Wi-Fi relay. It does not use a browser.
+
 ## Run and deploy
 
 Use Node.js 22 or newer; there are no npm dependencies.
