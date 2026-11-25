@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="330" viewBox="0 0 780 330" fill="none">
+  <defs>
+    <linearGradient id="field" x1="254" y1="272" x2="760" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#232554"/><stop offset=".6" stop-color="#373c84"/><stop offset="1" stop-color="#4d52a0"/>
+    </linearGradient>
+    <linearGradient id="ball" x1="0" y1="-105" x2="86" y2="81" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#e4f5a7"/><stop offset=".26" stop-color="#d6f678"/><stop offset=".62" stop-color="#a6cb4a"/><stop offset="1" stop-color="#5e8332"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop stop-color="#a6a9ff" stop-opacity=".53"/><stop offset="1" stop-color="#a6a9ff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grain" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="2" r=".55" fill="#162141" fill-opacity=".29"/><circle cx="4" cy="5" r=".55" fill="#f8ffdb" fill-opacity=".33"/>
+    </pattern>
+    <path id="shape" d="M-143 0Q-100-68-30-81Q60-99 144 0Q68 98-29 81Q-100 70-143 0Z"/>
+    <clipPath id="clip"><use href="#shape"/></clipPath>
+  </defs>
+  <path d="M334 332 570-1h210v333Z" fill="url(#field)"/>
+  <ellipse cx="560" cy="145" rx="270" ry="163" fill="url(#glow)"/>
+  <g opacity=".26" stroke="#c7ccff" stroke-width="1.2">
+    <path d="M337 332 571-2M424 332 658-2M512 332 746-2M599 332 833-2M686 332 920-2M773 332 1007-2"/>
+    <path stroke-dasharray="3 10" stroke-width="2.2" d="M425 206h355M494 109h286"/>
+    <path d="M625 295h103M680 25h100"/>
+  </g>
+  <g fill="#cbd0ff" opacity=".3" font-family="sans-serif" font-weight="900" font-size="27">
+    <text x="685" y="268" transform="rotate(-17 685 268)">40</text><text x="682" y="83" transform="rotate(-17 682 83)">50</text>
+  </g>
+  <g stroke="#adabf7" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 9" opacity=".55">
+    <path d="M280 220q128 69 203-1"/><path d="M422 80q-1-37 69-50"/>
+  </g>
+  <g fill="none" stroke="#d6f678" stroke-width="1.6" stroke-linecap="round" opacity=".83">
+    <path d="M385 136h19m-9.5-9.5v19M667 112h26m-13-13v26M465 271h16m-8-8v16"/>
+    <circle cx="633" cy="49" r="4"/><circle cx="562" cy="278" r="3"/>
+  </g>
+  <g transform="translate(551 155) rotate(-29)">
+    <use href="#shape" transform="translate(-6 15)" fill="#111433" opacity=".37"/>
+    <use href="#shape" fill="url(#ball)" stroke="#e6faa2" stroke-width="1.4"/>
+    <g clip-path="url(#clip)">
+      <path d="M-94-57q11 56 0 112m192-115q-12 57 0 117" stroke="#fbffe5" stroke-width="13" opacity=".79"/>
+      <path d="M-147 0Q-21 64 147 0M-144 0Q-28-63 144 0" stroke="#395528" stroke-width="1.4" opacity=".58"/>
+      <path d="M-144 0Q-26-14 144 0" stroke="#344924" stroke-opacity=".72" stroke-width="2"/>
+      <use href="#shape" fill="url(#grain)"/>
+    </g>
+    <path d="M-47-4Q0-10 48-4" stroke="#2b3c28" stroke-width="11" stroke-linecap="round"/>
+    <path d="M-47-5Q0-11 48-5M-33-17l2 22m12-23 2 22m13-23 1 22m14-23 1 22m13-21 1 22m13-20 1 20" stroke="#f5ffcc" stroke-width="4.3" stroke-linecap="round"/>
+  </g>
+</svg>

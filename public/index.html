@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A game-day scoreboard for your ESPN fantasy football team.">
+  <meta name="theme-color" content="#f5f6fa">
+  <title>Game Day HQ — Family Fantasy Football</title>
+  <link rel="icon" type="image/svg+xml" href="/mark.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a href="#matchups" class="skip">Skip to matchups</a>
+  <header class="top">
+    <div class="shell top-inner">
+      <a class="brand" href="/" aria-label="Game Day HQ home">
+        <img src="/mark.svg" width="42" height="42" alt="">
+        <span><strong>GAME DAY<span class="brand-hq"> HQ</span></strong><small>FAMILY FANTASY FOOTBALL</small></span>
+      </a>
+      <nav aria-label="Dashboard sections">
+        <a class="nav-active" href="#matchups">Scoreboard</a>
+        <a href="#lineup">Lineups</a>
+        <a href="#nfl">NFL scores</a>
+      </nav>
+      <div class="team-tools">
+        <select id="team-switch" aria-label="Switch saved team" hidden></select>
+        <button class="button setup-button" id="setup-open" type="button"><span id="settings-icon" aria-hidden="true"></span> Change team</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" aria-labelledby="headline">
+      <div class="hero-copy">
+        <span class="hero-tag"><span></span> THE FAMILY SCOREBOARD</span>
+        <h1 id="headline">Game Day <em>HQ</em><span>.</span></h1>
+        <p>Your team. Your lineup. Game day at a glance.</p>
+      </div>
+      <div class="hero-index" aria-hidden="true"><span></span> GRIDIRON / 01</div>
+    </section>
+
+    <section class="matchup-section" id="matchups" aria-labelledby="matchups-title">
+      <div class="section-top">
+        <div>
+          <p class="eyebrow">01 <span></span> THE BIG BOARD</p>
+          <h2 id="matchups-title">Fantasy matchup</h2>
+        </div>
+        <div class="board-actions">
+          <span class="feed-status" id="feed-status" role="status"></span>
+          <div class="week-control" aria-label="Choose a week">
+            <button id="prev" class="icon-button" aria-label="Previous week" type="button">‹</button>
+            <select id="week" aria-label="Fantasy week"><option>Week 11</option></select>
+            <button id="next" class="icon-button" aria-label="Next week" type="button">›</button>
+          </div>
+          <button id="refresh" class="button icon-button" aria-label="Refresh scores" title="Refresh scores" type="button">↻</button>
+        </div>
+      </div>
+      <div class="banner" id="notice"></div>
+      <div id="matchup-card"></div>
+    </section>
+
+    <div class="lower">
+      <section class="panel lineup" id="lineup" aria-labelledby="lineup-title">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">02 <span></span> THE PLAYBOOK</p>
+            <h2 id="lineup-title">Player lineup</h2>
+            <p id="lineup-team" class="panel-sub"></p>
+          </div>
+          <div class="lineup-actions">
+            <div class="segments" id="side" aria-label="Choose a roster">
+              <button data-side="roster" aria-pressed="true" type="button">My team</button>
+              <button data-side="opponentRoster" aria-pressed="false" type="button">Opponent</button>
+            </div>
+            <select id="filter" aria-label="Filter lineup">
+              <option value="all">All players</option>
+              <option value="starters">Starters</option>
+              <option value="bench">Bench / IR</option>
+            </select>
+          </div>
+        </div>
+        <div id="roster"></div>
+      </section>
+
+      <aside class="sidebar" aria-label="Game day extras">
+        <section class="panel impact" aria-labelledby="impact-title">
+          <div class="panel-header">
+            <div><p class="eyebrow">THE HIGHLIGHT REEL</p><h2 id="impact-title">Impact players</h2></div>
+            <span class="panel-icon" id="bolt-icon" aria-hidden="true"></span>
+          </div>
+          <div id="leaders"></div>
+        </section>
+        <section class="panel" id="nfl" aria-labelledby="nfl-title">
+          <div class="panel-header">
+            <div><p class="eyebrow">AROUND THE LEAGUE</p><h2 id="nfl-title">NFL scoreboard</h2></div>
+            <span class="panel-icon green" id="nfl-icon" aria-hidden="true"></span>
+          </div>
+          <div id="games"></div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="shell footer">
+    <span>GAME DAY HQ <b> / </b> A FAMILY FANTASY PROJECT</span>
+    <span id="footer-note">Scores by ESPN · Unofficial and read-only</span>
+  </footer>
+
+  <dialog id="settings" aria-labelledby="settings-title">
+    <form id="team-form">
+      <header class="dialog-header">
+        <div><p class="eyebrow">THE LOCKER ROOM</p><h2 id="settings-title">Team setup</h2></div>
+        <button type="button" id="setup-close" class="icon-button button" aria-label="Close team setup">×</button>
+      </header>
+      <p>Pick one public ESPN Fantasy Football team. Your choices are saved in this browser only. No ESPN password or cookies needed.</p>
+      <label class="season-label" for="season">NFL season <input id="season" type="number" min="2018" max="2100" required></label>
+      <div class="team-field">
+        <div class="form-row"><label>ESPN link or league ID<input id="team-link" maxlength="550" autocomplete="off" placeholder="Paste ESPN link"></label><button id="load-teams" type="button" class="button">Load teams</button></div>
+        <div class="form-row"><label>Fantasy team<select id="team-picker" disabled><option value="">Load public teams first</option></select></label></div>
+        <p id="lookup-msg" class="form-msg" role="status"></p>
+      </div>
+      <p id="setup-error" class="form-error" role="status"></p>
+      <div class="dialog-footer">
+        <div class="dialog-tools">
+          <button type="button" id="use-demo" class="button">Use demo</button>
+          <button type="button" id="copy-team" class="button" hidden>Copy current ESPN link</button>
+        </div>
+        <button type="submit" class="button primary">Show team</button>
+      </div>
+    </form>
+  </dialog>
+  <noscript><p class="shell">Enable JavaScript to use the dashboard.</p></noscript>
+</body>
+</html>
